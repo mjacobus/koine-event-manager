@@ -9,15 +9,15 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Marcelo Jacobus"]
   spec.email         = ["marcelo.jacobus@gmail.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{Event Manager for ruby}
+  spec.description   = %q{Event Manager for ruby}
+  spec.homepage      = "https://github.com/mjacobus/koine-event-manager"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
   # delete this section to allow pushing this gem to any host.
   if spec.respond_to?(:metadata)
-    spec.metadata['allowed_push_host'] = "TODO: Set to 'http://mygemserver.com'"
+    spec.metadata['allowed_push_host'] = "https://rubygems.org"
   else
     raise "RubyGems 2.0 or newer is required to protect against public gem pushes."
   end
@@ -30,4 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.10"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "minitest"
+  spec.add_development_dependency "scrutinizer-ocular"
+  spec.add_development_dependency "coveralls"
+  spec.add_development_dependency "simplecov"
 end
