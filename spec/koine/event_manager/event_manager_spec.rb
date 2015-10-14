@@ -1,8 +1,5 @@
 require "spec_helper"
 
-SayHello = Struct.new(:output, :name)
-SayGoodBye = Class.new(SayHello)
-
 describe Koine::EventManager::EventManager do
   subject { Koine::EventManager::EventManager.new }
 

@@ -20,3 +20,6 @@ end
 
 require "koine/event_manager"
 require "minitest/autorun"
+
+SayHello = Struct.new(:output, :name)
+SayGoodBye = Class.new(SayHello)
