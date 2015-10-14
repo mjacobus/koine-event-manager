@@ -72,6 +72,9 @@ And attach to the event manager:
 ```ruby
 event_manager = Koine::EventManager::EventManager.new
 event_manager.attach_listener(UserListener.new)
+
+# and of course later, you can detach listeners, if you want
+event_manager.detach_listener(event_manager.listeners.last)
 ```
 
 And trigger the event on the event manager
