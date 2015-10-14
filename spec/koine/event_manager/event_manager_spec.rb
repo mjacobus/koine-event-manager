@@ -63,4 +63,13 @@ describe Koine::EventManager::EventManager do
       "hello from listener bar",
     ]
   end
+
+  describe ".instance" do
+    it "returns a sigleton instance of manager" do
+      klass = Koine::EventManager::EventManager
+      instance = klass.instance
+      instance.must_be_instance_of(klass)
+      klass.instance.must_be_same_as(instance)
+    end
+  end
 end

@@ -28,6 +28,10 @@ module Koine
       def listeners
         @listners ||= []
       end
+
+      def self.instance
+        @@instance ||= new
+      end
     end
   end
 end
