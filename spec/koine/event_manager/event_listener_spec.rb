@@ -22,6 +22,22 @@ describe Koine::EventManager::EventListener do
       subject.listeners_for(SayGoodBye).length.must_equal 1
       subject.listeners_for("SayGoodBye").length.must_equal 1
     end
+
+    it "accepts procs as callbacks" do
+      callback = Proc.new do |event|
+        event.output << "hello #{event.name}"
+      end
+
+      subject.listen_to(SayHello, &callback)
+
+      output = []
+      subject.trigger(SayHello.new(output, "foo"))
+      output.must_equal ["hello foo"]
+    end
+
+    it "raises exception if block was not given" do
+      proc { subject.listen_to("foo") }.must_raise ArgumentError
+    end
   end
 
   describe "#trigger" do

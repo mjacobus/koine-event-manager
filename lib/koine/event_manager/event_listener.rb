@@ -2,6 +2,7 @@ module Koine
   module EventManager
     class EventListener
       def listen_to(event_name, &block)
+        raise ArgumentError, "block not given" unless block_given?
         listeners_for(event_name) << block
       end
 
