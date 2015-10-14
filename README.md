@@ -83,6 +83,38 @@ And trigger the event on the event manager
 event_manager.trigger(UserSignedIn.new(some_user))
 ```
 
+## Adding event manager awareness to your classes
+
+**CAUTION**: This make use of the singleton instance of event manager.
+Singletons are usually a bad idea, so prefer dependency injection over
+singleton instances.
+
+```ruby
+require "koine/event_manager/event_manager_aware"
+
+class MyModel
+  include Koine::EventManager::EventManagerAware
+
+  def some_method
+    event_manager.trigger(SomeEvent.new(foo: :bar))
+  end
+end
+```
+
+The above is the same as:
+
+```ruby
+class MyModel
+  def some_method
+    event_manager.trigger(SomeEvent.new(foo: :bar))
+  end
+
+  def event_manager
+    Koine::EventManager::EventManager.instance
+  end
+end
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
