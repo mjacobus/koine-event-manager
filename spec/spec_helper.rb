@@ -1,25 +1,32 @@
-$LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
+# frozen_string_literal: true
 
-if ENV["COVERALLS"]
-  require "coveralls"
+if ENV['COVERALLS']
+  require 'coveralls'
   Coveralls.wear!
 end
 
-if ENV["COVERAGE"]
-  require "simplecov"
+if ENV['COVERAGE']
+  require 'simplecov'
 
   SimpleCov.start do
-    add_filter "/spec/"
+    add_filter '/spec/'
   end
 end
 
-if ENV["SCRUTINIZER"]
-  require "scrutinizer/ocular"
-  Scrutinizer::Ocular.watch!
-end
+require 'bundler/setup'
+require 'koine/event_manager'
 
-require "koine/event_manager"
-require "minitest/autorun"
+RSpec.configure do |config|
+  # Enable flags like --only-failures and --next-failure
+  config.example_status_persistence_file_path = '.rspec_status'
+
+  # Disable RSpec exposing methods globally on `Module` and `main`
+  config.disable_monkey_patching!
+
+  config.expect_with :rspec do |c|
+    c.syntax = :expect
+  end
+end
 
 SayHello = Struct.new(:output, :name)
 SayGoodBye = Class.new(SayHello)
