@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Koine
   module EventManager
     class EventManager
@@ -26,11 +28,11 @@ module Koine
       end
 
       def listeners
-        @listners ||= []
+        @listeners ||= []
       end
 
       def self.instance
-        @@instance ||= new
+        @instance ||= new
       end
     end
   end

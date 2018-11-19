@@ -1,27 +1,11 @@
-require "bundler/gem_tasks"
-require "rake/testtask"
+# frozen_string_literal: true
 
-Rake::TestTask.new(:test) do |t|
-  t.libs << "spec"
-  t.libs << "lib"
-  t.test_files = FileList['spec/**/*_spec.rb']
+require 'bundler/gem_tasks'
+
+# rubocop:disable Lint/HandleExceptions
+begin
+  require 'rspec/core/rake_task'
+  RSpec::Core::RakeTask.new(:spec)
+  task default: :spec
+rescue LoadError
 end
-
-namespace :test do
-  task :coveralls do
-    ENV["COVERALLS"] = "true"
-    Rake::Task["test:coverage"].invoke
-  end
-
-  task :coverage do
-    ENV["COVERAGE"] = "true"
-    Rake::Task["test"].invoke
-  end
-
-  task :scrutinizer do
-    ENV["SCRUTINIZER"] = "true"
-    Rake::Task["test"].invoke
-  end
-end
-
-task :default => :test

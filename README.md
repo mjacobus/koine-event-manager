@@ -3,10 +3,8 @@
 Event manager for ruby.
 
 [![Build Status](https://travis-ci.org/mjacobus/koine-event-manager.svg)](https://travis-ci.org/mjacobus/koine-event-manager)
-[![Code Coverage](https://scrutinizer-ci.com/g/mjacobus/koine-event-manager/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/mjacobus/koine-event-manager/?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/mjacobus/koine-event-manager/badge.svg?branch=master)](https://coveralls.io/github/mjacobus/koine-event-manager?branch=master)
 [![Code Climate](https://codeclimate.com/github/mjacobus/koine-event-manager/badges/gpa.svg)](https://codeclimate.com/github/mjacobus/koine-event-manager)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mjacobus/koine-event-manager/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mjacobus/koine-event-manager/?branch=master)
-[![Dependency Status](https://gemnasium.com/mjacobus/koine-event-manager.svg)](https://gemnasium.com/mjacobus/koine-event-manager)
 [![Gem Version](https://badge.fury.io/rb/koine-event_manager.svg)](https://badge.fury.io/rb/koine-event_manager)
 
 ## Installation
