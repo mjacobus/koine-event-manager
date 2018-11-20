@@ -62,4 +62,30 @@ RSpec.describe Koine::EventManager::EventManager do
       'hello from listener bar',
     ]
   end
+
+  it 'subscribes/unsubscribes an publisher' do
+    event = SayHelloAgain.new([], 'John Doe')
+
+    manager.listen_to(SayHello) do |e|
+      e.output << "Hi #{e.name} from block"
+    end
+
+    subscriber = HelloSubscriber.new
+    manager.subscribe(subscriber, to: 'SayHello')
+    manager.subscribe(subscriber, to: SayHelloAgain)
+
+    manager.trigger(event)
+
+    manager.unsubscribe(subscriber, from: 'SayHello')
+
+    manager.trigger(event)
+
+    expect(event.output).to eq([
+      'Hi John Doe from block',
+      'Hello John Doe from HelloSubscriber',
+      'Hello John Doe from HelloSubscriber',
+      'Hi John Doe from block',
+      'Hello John Doe from HelloSubscriber',
+    ])
+  end
 end

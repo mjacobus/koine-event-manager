@@ -11,6 +11,14 @@ module Koine
         @internal_listener.listen_to(event, &block)
       end
 
+      def subscribe(subscriber, to:)
+        @internal_listener.subscribe(subscriber, to: to)
+      end
+
+      def unsubscribe(subscriber, from:)
+        @internal_listener.unsubscribe(subscriber, from: from)
+      end
+
       def attach_listener(listener)
         listeners << listener
       end

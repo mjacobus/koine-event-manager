@@ -81,6 +81,23 @@ And trigger the event on the event manager
 event_manager.trigger(UserSignedIn.new(some_user))
 ```
 
+### Subscribers
+
+You can add and remove subscribers as follows:
+
+```ruby
+class MySubscriber
+  def publish(event)
+    # do something
+  end
+end
+
+subscriber = MySubscriber.new
+
+event_manager.subscribe(subscriber, to: UserListener)
+event_manager.unsubscribe(subscriber, from: UserListener)
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

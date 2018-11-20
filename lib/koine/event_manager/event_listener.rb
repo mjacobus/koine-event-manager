@@ -5,6 +5,7 @@ module Koine
     class EventListener
       def initialize
         @listeners = {}
+        @subscribers = {}
       end
 
       def listen_to(event_type, &block)
@@ -12,9 +13,30 @@ module Koine
         add_listener(event_type, &block)
       end
 
+      def subscribe(subscriber, to:)
+        @subscribers[subscriber] ||= []
+        @subscribers[subscriber] << to
+      end
+
+      def unsubscribe(subscriber, from:)
+        all = Array(subscribers[subscriber])
+        filtered = all.reject do |object_type|
+          object_type.to_s == from.to_s
+        end
+        subscribers[subscriber] = filtered
+      end
+
       def trigger(event_object)
         listeners_for(event_object.class).each do |block|
           block.call(event_object)
+        end
+
+        subscribers.each do |subscriber, events|
+          events.each do |event|
+            if event_object.class.ancestors.map(&:to_s).include?(event.to_s)
+              subscriber.publish(event_object)
+            end
+          end
         end
       end
 
@@ -36,6 +58,7 @@ module Koine
       end
 
       attr_reader :listeners
+      attr_reader :subscribers
     end
   end
 end
