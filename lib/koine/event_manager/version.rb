@@ -2,6 +2,6 @@
 
 module Koine
   module EventManager
-    VERSION = '1.2'
+    VERSION = '2.0'
   end
 end
