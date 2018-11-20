@@ -62,13 +62,4 @@ RSpec.describe Koine::EventManager::EventManager do
       'hello from listener bar',
     ]
   end
-
-  describe '.instance' do
-    it 'returns a sigleton instance of manager' do
-      klass = described_class
-      instance = klass.instance
-      expect(instance).to be_a(klass)
-      expect(klass.instance).to be(instance)
-    end
-  end
 end
