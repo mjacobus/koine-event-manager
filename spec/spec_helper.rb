@@ -29,4 +29,5 @@ RSpec.configure do |config|
 end
 
 SayHello = Struct.new(:output, :name)
-SayGoodBye = Class.new(SayHello)
+SayGoodBye = Struct.new(:output, :name)
+SayHelloAgain = Class.new(SayHello)

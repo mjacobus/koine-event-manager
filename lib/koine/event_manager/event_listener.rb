@@ -3,9 +3,13 @@
 module Koine
   module EventManager
     class EventListener
-      def listen_to(event_name, &block)
+      def initialize
+        @listeners = {}
+      end
+
+      def listen_to(event_type, &block)
         raise ArgumentError, 'block not given' unless block_given?
-        listeners_for(event_name) << block
+        add_listener(event_type, &block)
       end
 
       def trigger(event_object)
@@ -14,19 +18,24 @@ module Koine
         end
       end
 
-      def listeners_for(event)
-        listeners[key_for(event)] ||= []
+      def listeners_for(event_type)
+        listeners.select do |class_or_object, _collection|
+          event_type.ancestors.map(&:to_s).include?(class_or_object.to_s)
+        end.values.flatten
       end
 
       private
+
+      def add_listener(event_type, &block)
+        listeners[event_type.to_s] ||= []
+        listeners[event_type.to_s] << block
+      end
 
       def key_for(object_or_class)
         object_or_class.to_s
       end
 
-      def listeners
-        @listeners ||= {}
-      end
+      attr_reader :listeners
     end
   end
 end
