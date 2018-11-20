@@ -53,10 +53,6 @@ module Koine
         listeners[event_type.to_s] << block
       end
 
-      def key_for(object_or_class)
-        object_or_class.to_s
-      end
-
       attr_reader :listeners
       attr_reader :subscribers
     end
