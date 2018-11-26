@@ -63,7 +63,7 @@ RSpec.describe Koine::EventManager::EventManager do
     ]
   end
 
-  it 'subscribes/unsubscribes an publisher' do
+  it 'subscribes/unsubscribes an publisher and triggers only one per subscriber' do
     event = SayHelloAgain.new([], 'John Doe')
 
     manager.listen_to(SayHello) do |e|
@@ -72,6 +72,8 @@ RSpec.describe Koine::EventManager::EventManager do
 
     subscriber = HelloSubscriber.new
     manager.subscribe(subscriber, to: 'SayHello')
+    manager.subscribe(subscriber, to: [SayHelloAgain])
+    manager.subscribe(subscriber, to: [SayHelloAgain])
     manager.subscribe(subscriber, to: SayHelloAgain)
 
     manager.trigger(event)

@@ -16,6 +16,7 @@ module Koine
       def subscribe(subscriber, to:)
         @subscribers[subscriber] ||= []
         @subscribers[subscriber] << to
+        @subscribers[subscriber] = @subscribers[subscriber].flatten.map(&:to_s).uniq
       end
 
       def unsubscribe(subscriber, from:)
