@@ -94,8 +94,8 @@ end
 
 subscriber = MySubscriber.new
 
-event_manager.subscribe(subscriber, to: UserListener)
-event_manager.unsubscribe(subscriber, from: UserListener)
+event_manager.subscribe(subscriber, to: UserSignedIn)
+event_manager.unsubscribe(subscriber, from: UserSignedIn)
 ```
 
 ## Development
