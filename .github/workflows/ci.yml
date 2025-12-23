@@ -26,7 +26,7 @@ jobs:
       run: bundle exec rspec
 
     - name: Upload coverage to Coveralls
-      if: matrix.ruby-version == '3.3'
+      if: matrix.ruby-version == '3.4'
       uses: coverallsapp/github-action@v2
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
