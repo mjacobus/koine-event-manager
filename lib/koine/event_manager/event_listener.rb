@@ -10,6 +10,7 @@ module Koine
 
       def listen_to(event_type, &block)
         raise ArgumentError, 'block not given' unless block_given?
+
         add_listener(event_type, &block)
       end
 
@@ -54,8 +55,7 @@ module Koine
         listeners[event_type.to_s] << block
       end
 
-      attr_reader :listeners
-      attr_reader :subscribers
+      attr_reader :listeners, :subscribers
     end
   end
 end

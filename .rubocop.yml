@@ -1,13 +1,17 @@
-require: rubocop-rspec
-
 # https://github.com/rubocop-hq/rubocop/blob/36404b40cbdac743b596c8520877c4ca3eee5691/manual/cops.md
 
 AllCops:
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 3.0
   Exclude:
     - config/environment.rb
     - apps/web/application.rb
-Layout/AlignParameters:
+    - vendor/**/*
+    - node_modules/**/*
+    - bin/**/*
+  NewCops: enable
+  SuggestExtensions: false
+
+Layout/ParameterAlignment:
   Enabled: false
 
 Layout/ClosingParenthesisIndentation:
@@ -16,10 +20,10 @@ Layout/ClosingParenthesisIndentation:
 Layout/FirstParameterIndentation:
   Enabled: false
 
-Layout/IndentHash:
+Layout/FirstHashElementIndentation:
   Enabled: false
 
-Layout/IndentArray:
+Layout/FirstArrayElementIndentation:
   Enabled: false
 
 Layout/MultilineMethodCallIndentation:
@@ -39,7 +43,7 @@ Metrics/BlockLength:
   Exclude:
     - 'spec/**/*_spec.rb'
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 100
 
 Style/CommentedKeyword:
@@ -59,23 +63,3 @@ Style/TrailingCommaInArrayLiteral:
 
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: comma
-
-# rubocop-rspec cops
-
-Capybara/FeatureMethods:
-  Enabled: false
-
-FactoryBot/CreateList:
-  Enabled: false
-
-RSpec/ExampleLength:
-  Enabled: false
-
-RSpec/MessageSpies:
-  Enabled: false
-
-RSpec/MultipleExpectations:
-  Enabled: false
-
-RSpec/NestedGroups:
-  Enabled: false
