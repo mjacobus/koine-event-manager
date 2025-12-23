@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
   # to allow pushing to a single host or delete this section to allow pushing to any host.
   if spec.respond_to?(:metadata)
     spec.metadata['allowed_push_host'] = 'https://rubygems.org'
+    spec.metadata['rubygems_mfa_required'] = 'true'
   else
     raise 'RubyGems 2.0 or newer is required to protect against public gem pushes.'
   end
@@ -35,9 +36,9 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'bundler', '>= 1.16'
   spec.add_development_dependency 'coveralls'
-  spec.add_development_dependency 'rake', '~> 10.0'
-  spec.add_development_dependency 'rspec', '~> 3.0'
-  spec.add_development_dependency 'rubocop', '0.58'
-  spec.add_development_dependency 'rubocop-rspec', '~>1.30'
+  spec.add_development_dependency 'rake', '~> 13.0'
+  spec.add_development_dependency 'rspec', '~> 3.13'
+  spec.add_development_dependency 'rubocop', '~> 1.0'
+  spec.add_development_dependency 'rubocop-rspec', '~> 3.0'
   spec.add_development_dependency 'simplecov'
 end
