@@ -4,7 +4,6 @@ lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'koine/event_manager/version'
 
-# rubocop:disable Metrics/BlockLength
 Gem::Specification.new do |spec|
   spec.name          = 'koine-event_manager'
   spec.version       = Koine::EventManager::VERSION
@@ -15,6 +14,7 @@ Gem::Specification.new do |spec|
   spec.description   = 'Event Manager for ruby'
   spec.homepage      = 'https://github.com/mjacobus/koine-event-manager'
   spec.license       = 'MIT'
+  spec.required_ruby_version = '>= 3.0'
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
@@ -33,13 +33,4 @@ Gem::Specification.new do |spec|
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
-
-  spec.add_development_dependency 'bundler', '>= 1.16'
-  spec.add_development_dependency 'coveralls'
-  spec.add_development_dependency 'rake', '~> 13.0'
-  spec.add_development_dependency 'rspec', '~> 3.13'
-  spec.add_development_dependency 'rubocop', '~> 1.0'
-  spec.add_development_dependency 'rubocop-rake', '~> 0.6'
-  spec.add_development_dependency 'rubocop-rspec', '~> 3.0'
-  spec.add_development_dependency 'simplecov'
 end
