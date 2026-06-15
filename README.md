@@ -242,12 +242,55 @@ class SessionsController < ApplicationController
 end
 ```
 
+### Error Isolation
+
+By default, an exception raised by a listener or subscriber propagates and aborts
+the dispatch. Pass an `on_error` callback to isolate failures so the remaining
+listeners still run:
+
+```ruby
+event_manager = Koine::EventManager::EventManager.new(
+  on_error: ->(error, event:, listener:) { Bugsnag.notify(error) }
+)
+```
+
+The callback is invoked as `on_error.call(error, event:, listener:)`, so it **must
+accept the `event:` and `listener:` keyword arguments** (the failing event and the
+listener/subscriber that raised). Use them to attribute the failure, or ignore them
+with a splat:
+
+```ruby
+on_error: ->(error, **) { Bugsnag.notify(error) }
+```
+
+Without `on_error` the behavior is unchanged (errors re-raise).
+
+### Post-commit Dispatch (Rails)
+
+`require "koine/event_manager/rails"` adds `TransactionalEventManager`, a drop-in
+subclass that defers dispatch until the current database transaction commits (or
+runs immediately when none is open), via `ActiveRecord.after_all_transactions_commit`.
+This keeps listeners from reacting to changes that a rollback would undo.
+
+```ruby
+require "koine/event_manager/rails"
+
+bus = Koine::EventManager::TransactionalEventManager.new(
+  on_error: ->(error, **) { Bugsnag.notify(error) }
+)
+```
+
+Requires ActiveRecord >= 7.2; the core library remains dependency-free, so only load
+this file from within a Rails/ActiveRecord process.
+
 ## API Reference
 
 ### EventManager
 
+- `EventManager.new(on_error: nil)` - Optionally isolate listener errors (see Error Isolation)
 - `listen_to(event_class, &block)` - Register a block to handle events
 - `trigger(event)` - Dispatch an event to all listeners and subscribers
+- `publish(event)` - Alias for `trigger` (pub/sub vocabulary)
 - `subscribe(subscriber, to: event_type)` - Add a subscriber for an event type
 - `unsubscribe(subscriber, from: event_type)` - Remove a subscriber
 - `attach_listener(listener)` - Attach an EventListener instance
