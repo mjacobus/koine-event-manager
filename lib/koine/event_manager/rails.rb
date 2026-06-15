@@ -11,6 +11,13 @@ module Koine
       alias dispatch_now trigger
 
       def trigger(event)
+        available = defined?(::ActiveRecord) &&
+          ::ActiveRecord.respond_to?(:after_all_transactions_commit)
+        unless available
+          raise LoadError, 'TransactionalEventManager requires ActiveRecord >= 7.2 ' \
+                           '(after_all_transactions_commit). Load Rails before using it.'
+        end
+
         ::ActiveRecord.after_all_transactions_commit do
           dispatch_now(event)
         end

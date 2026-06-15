@@ -27,4 +27,11 @@ RSpec.describe Koine::EventManager::TransactionalEventManager do
     deferred.each(&:call)
     expect(received).to eq ['Joe']
   end
+
+  it 'raises a clear error when ActiveRecord is unavailable' do
+    hide_const('ActiveRecord')
+
+    expect { manager.trigger(SayHello.new([], 'Joe')) }
+      .to raise_error(LoadError, /ActiveRecord/)
+  end
 end
