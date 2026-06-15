@@ -3,9 +3,10 @@
 module Koine
   module EventManager
     class EventListener
-      def initialize
+      def initialize(on_error: nil)
         @listeners = {}
         @subscribers = {}
+        @on_error = on_error
       end
 
       def listen_to(event_type, &block)
@@ -30,13 +31,13 @@ module Koine
 
       def trigger(event_object)
         listeners_for(event_object.class).each do |block|
-          block.call(event_object)
+          dispatch(event_object, block) { block.call(event_object) }
         end
 
         subscribers.each do |subscriber, events|
           events.each do |event|
             if event_object.class.ancestors.map(&:to_s).include?(event.to_s)
-              subscriber.publish(event_object)
+              dispatch(event_object, subscriber) { subscriber.publish(event_object) }
             end
           end
         end
@@ -49,6 +50,14 @@ module Koine
       end
 
       private
+
+      def dispatch(event, listener)
+        yield
+      rescue StandardError => e
+        raise if @on_error.nil?
+
+        @on_error.call(e, event: event, listener: listener)
+      end
 
       def add_listener(event_type, &block)
         listeners[event_type.to_s] ||= []
