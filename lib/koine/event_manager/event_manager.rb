@@ -3,8 +3,13 @@
 module Koine
   module EventManager
     class EventManager
-      def initialize
-        @internal_listener = EventListener.new
+      def initialize(on_error: nil)
+        @on_error = on_error
+        @internal_listener = EventListener.new(on_error: on_error)
+      end
+
+      def publish(event)
+        trigger(event)
       end
 
       def listen_to(event, &block)
@@ -31,12 +36,22 @@ module Koine
         @internal_listener.trigger(event)
 
         listeners.each do |listener|
-          listener.trigger(event)
+          dispatch(event, listener) { listener.trigger(event) }
         end
       end
 
       def listeners
         @listeners ||= []
+      end
+
+      private
+
+      def dispatch(event, listener)
+        yield
+      rescue StandardError => e
+        raise if @on_error.nil?
+
+        @on_error.call(e, event: event, listener: listener)
       end
     end
   end

@@ -90,4 +90,36 @@ RSpec.describe Koine::EventManager::EventManager do
       'Hello John Doe from HelloSubscriber',
     ])
   end
+
+  describe 'error isolation' do
+    it 'raises by default (backward compatible)' do
+      manager.listen_to(SayHello) { raise 'boom' }
+
+      expect { manager.trigger(SayHello.new([], 'x')) }.to raise_error('boom')
+    end
+
+    it 'isolates a failing listener and keeps the rest running' do
+      errors = []
+      isolated = described_class.new(on_error: ->(error, **) { errors << error })
+      ran = false
+      isolated.listen_to(SayHello) { raise 'boom' }
+      isolated.listen_to(SayHello) { ran = true }
+
+      isolated.trigger(SayHello.new([], 'x'))
+
+      expect(ran).to be true
+      expect(errors.first.message).to eq 'boom'
+    end
+  end
+
+  describe '#publish' do
+    it 'is an alias-style emitter that dispatches through #trigger' do
+      seen = []
+      manager.listen_to(SayHello) { |event| seen << event.name }
+
+      manager.publish(SayHello.new([], 'Joe'))
+
+      expect(seen).to eq ['Joe']
+    end
+  end
 end
