@@ -283,6 +283,20 @@ bus = Koine::EventManager::TransactionalEventManager.new(
 Requires ActiveRecord >= 7.2; the core library remains dependency-free, so only load
 this file from within a Rails/ActiveRecord process.
 
+Subscribers (and block listeners) are deferred by default. A reaction that must run
+**inside** the transaction — e.g. to write a related record atomically, or to raise
+and roll the whole operation back — can opt out with `after_commit: false`:
+
+```ruby
+bus.subscribe(AuditWriter.new, to: ProposalCreated)                      # post-commit, isolated
+bus.subscribe(InventoryReserver.new, to: ProposalCreated, after_commit: false) # in-transaction
+bus.listen_to(ProposalCreated, after_commit: false) { |e| ... }          # in-transaction block
+```
+
+Synchronous (`after_commit: false`) listeners run inline and their errors **propagate**
+(bypassing `on_error`), so a failed integrity reaction aborts the surrounding
+transaction. Deferred listeners stay isolated by `on_error`.
+
 ## API Reference
 
 ### EventManager
