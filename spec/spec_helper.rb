@@ -30,7 +30,8 @@ end
 
 SayHello = Struct.new(:output, :name)
 SayGoodBye = Struct.new(:output, :name)
-SayHelloAgain = Class.new(SayHello)
+class SayHelloAgain < SayHello
+end
 
 class HelloSubscriber
   def publish(event)
